@@ -1,39 +1,55 @@
 package com.fiap.govtrack.components
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun userInput(
     value: String,
     placeholder: String,
-    label: String,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     keyboardType: KeyboardType,
-    atualizaValor: (String) -> Unit,
+    onValueChange: (String) -> Unit,
     trailingIcon: @Composable (() -> Unit)? = null
 ) {
     OutlinedTextField(
         value = value,
         onValueChange = {
-            atualizaValor(it)
+            onValueChange
         },
-        modifier = modifier.fillMaxWidth().padding(top = 16.dp),
+        modifier = modifier
+            .fillMaxWidth(),
         placeholder = {
             Text(text = placeholder)
         },
-        label = {
-            Text(text = label)
-        },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-        trailingIcon = trailingIcon
+        trailingIcon = trailingIcon,
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun userInputPreview() {
+    userInput(
+        value = "",
+        placeholder = "CNPJPLACHOLDER",
+        keyboardType = KeyboardType.Number,
+        onValueChange = {},
+        trailingIcon = null
     )
 }
