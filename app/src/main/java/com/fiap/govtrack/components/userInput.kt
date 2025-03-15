@@ -25,7 +25,7 @@ fun userInput(
     OutlinedTextField(
         value = value,
         onValueChange = {
-            onValueChange
+            onValueChange(it)
         },
         modifier = modifier
             .fillMaxWidth(),
