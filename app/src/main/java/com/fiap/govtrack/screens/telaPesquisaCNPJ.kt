@@ -21,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,58 +37,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.fiap.govtrack.BuildConfig
 import com.fiap.govtrack.R
 import com.fiap.govtrack.components.PagamentoCard
 import com.fiap.govtrack.components.buttonsComponent
 import com.fiap.govtrack.components.userInput
-import com.fiap.govtrack.model.Pagamentos
-import com.fiap.govtrack.model.Resultado
-import com.fiap.govtrack.service.RetrofitFactory
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.fiap.govtrack.viewmodel.PagamentosViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 
 
 @Composable
-fun TelaPesquisaCNPJ(navController: NavController?) {
-    val apiKey = BuildConfig.API_KEY
+fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewModel = viewModel()) {
+    // Conectar os estados do ViewModel à UI
+    val pagamentosList by viewModel.pagamentosList.collectAsState()
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+
+    // Estados locais para os campos de entrada
     var cnpj by remember { mutableStateOf("") }
     var ano by remember { mutableStateOf("") }
-    var pagamentosList by remember { mutableStateOf(listOf<Pagamentos>()) }
-    var isLoading by remember { mutableStateOf(false) }
-    var errorMessage by remember { mutableStateOf<String?>(null) }
-
-    fun buscarPagamentos(cnpj: String, ano: String) {
-        isLoading = true
-        val callPagamento = RetrofitFactory()
-            .getPagamentoService()
-            .getAllPagamentosFavorecido(
-                cnpj = cnpj, ano = ano, pagina = "1", fase = "3"
-            )
-
-        callPagamento.enqueue(object : Callback<Resultado> {
-            override fun onResponse(call: Call<Resultado>, response: Response<Resultado>) {
-                if (response.isSuccessful) {
-                    val pagamentos = response.body()?.results ?: emptyList()
-                    pagamentosList = pagamentos
-                } else {
-                    errorMessage = "Erro ao carregar dados"
-                }
-                isLoading = false
-            }
-
-            override fun onFailure(call: Call<Resultado>, t: Throwable) {
-                errorMessage = "Erro de conexão: ${t.message}"
-                isLoading = false
-            }
-        })
-    }
 
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-        GradientBackground{
+        GradientBackground {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -110,7 +83,8 @@ fun TelaPesquisaCNPJ(navController: NavController?) {
                 }
                 Card(
                     modifier = Modifier
-                        .fillMaxSize().padding(top = 20.dp),
+                        .fillMaxSize()
+                        .padding(top = 20.dp),
                     shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
                     colors = CardDefaults.cardColors(
                         containerColor = colorResource(R.color.white)
@@ -123,30 +97,36 @@ fun TelaPesquisaCNPJ(navController: NavController?) {
                             value = cnpj,
                             placeholder = stringResource(R.string.CNPJ),
                             keyboardType = KeyboardType.Number,
-                            modifier = Modifier.fillMaxWidth().padding(top = 22.dp, start = 22.dp, end = 22.dp),
-                            onValueChange = {cnpj = it},
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 22.dp, start = 22.dp, end = 22.dp),
+                            onValueChange = { cnpj = it },
                             trailingIcon = {
-                                Icon(imageVector = Icons.Default.BusinessCenter, contentDescription = stringResource(R.string.iconeDeConstrucao))
+                                Icon(
+                                    imageVector = Icons.Default.BusinessCenter,
+                                    contentDescription = stringResource(R.string.iconeDeConstrucao)
+                                )
                             }
                         )
                         userInput(
                             value = ano,
                             placeholder = stringResource(R.string.ano),
                             keyboardType = KeyboardType.Number,
-                            modifier = Modifier.fillMaxWidth().padding(top = 22.dp, start = 22.dp, end = 22.dp),
-                            onValueChange = {ano = it},
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 22.dp, start = 22.dp, end = 22.dp),
+                            onValueChange = { ano = it },
                             trailingIcon = {
-                                Icon(imageVector = Icons.Filled.DateRange, contentDescription = stringResource(R.string.iconeDeConstrucao))
+                                Icon(
+                                    imageVector = Icons.Filled.DateRange,
+                                    contentDescription = stringResource(R.string.iconeDeConstrucao)
+                                )
                             }
                         )
                         buttonsComponent(
-                            texto= "Buscar",
+                            texto = "Buscar",
                             onClick = {
-                                if (cnpj.isNotEmpty() && ano.isNotEmpty()) {
-                                    buscarPagamentos(cnpj, ano)
-                                } else {
-                                    errorMessage = "Por favor, preencha o CNPJ e o ano."
-                                }
+                                viewModel.buscarPagamentos(cnpj, ano)
                             }
                         )
                         errorMessage?.let {
@@ -157,9 +137,7 @@ fun TelaPesquisaCNPJ(navController: NavController?) {
                             )
                         }
 
-
                         if (isLoading) {
-                            // Indicador de carregamento
                             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
                         } else {
                             LazyColumn {
