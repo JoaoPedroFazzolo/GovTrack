@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">GovTrack</string>
+    <string name="CNPJ">CNPJ</string>
+    <string name="email">Email</string>
+    <string name="senha">Password</string>
+    <string name="nomeCompleto">Full Name</string>
+    <string name="entrar">Enter</string>
+    <string name="cadastrese">Sign-up</string>
+    <string name="enviar">Send</string>
+    <string name="ano">Year</string>
+    <string name="facaSuaPesquisa">Do your Search</string>
+    <string name="iconeDePesquisa">Search Icon</string>
+    <string name="iconeDeConstrucao">Icon Construction</string>
 </resources>
