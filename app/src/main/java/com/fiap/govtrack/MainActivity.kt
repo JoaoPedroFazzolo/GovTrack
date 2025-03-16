@@ -10,6 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.fiap.govtrack.screens.TelaCadastro
 import com.fiap.govtrack.screens.TelaPesquisaCNPJ
 import com.fiap.govtrack.screens.TelasNavegacao
 import com.fiap.govtrack.ui.theme.GovTrackTheme
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     ){
                     composable(route = "home") {  }
                     composable(route = "telasNavegacao") { TelasNavegacao(navController) }
-                    composable(route = "cadastro") {  }
+                    composable(route = "cadastro") { TelaCadastro(navController) }
                     composable(route = "login") {  }
                     composable(route = "resetSenha") {  }
                     composable(route = "pesquisaCnpj") { TelaPesquisaCNPJ(navController) }
