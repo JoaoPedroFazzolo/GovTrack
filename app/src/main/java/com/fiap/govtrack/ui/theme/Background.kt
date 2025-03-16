@@ -7,8 +7,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.fiap.govtrack.R
 
 @Composable
 fun GradientBackground(content: @Composable () -> Unit) {
@@ -18,14 +20,13 @@ fun GradientBackground(content: @Composable () -> Unit) {
             .background(
                 brush = Brush.linearGradient(
                     colors = listOf(
-                        Color(0xFF302F2F),
-                        Color(0xFF030303)
+                        colorResource(R.color.cinza),
+                        colorResource(R.color.black)
                     ),
                 )
             )
             .padding(
-                top = 64.dp,
-                start = 32.dp
+                top = 64.dp
             ),
         contentAlignment = Alignment.TopCenter
     ) {
