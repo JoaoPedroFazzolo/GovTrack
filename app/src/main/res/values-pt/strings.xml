@@ -1,3 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">GovTrack</string>
+    <string name="CNPJ">CNPJ</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="nomeCompleto">Nome Completo</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastrese">Cadastre-se</string>
+    <string name="enviar">Enviar</string>
+    <string name="ano">Ano</string>
+    <string name="facaSuaPesquisa">Faça sua pesquisa</string>
+    <string name="iconeDePesquisa">Icone de pesquisa</string>
 </resources>
