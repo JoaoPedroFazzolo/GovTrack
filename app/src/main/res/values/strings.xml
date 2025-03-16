@@ -11,4 +11,7 @@
     <string name="facaSuaPesquisa">Do your Search</string>
     <string name="iconeDePesquisa">Search Icon</string>
     <string name="iconeDeConstrucao">Icon Construction</string>
+    <string name="recuperarSenhaBotao">Password Recovery</string>
+    <string name="recuperarSenhaTitulo">Forgot Password</string>
+    <string name="retornarAoLogin">Return to login screen</string>
 </resources>
