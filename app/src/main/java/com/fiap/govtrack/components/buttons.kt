@@ -28,7 +28,7 @@ fun buttonsComponent(
             disabledContainerColor = Color.Gray,
             disabledContentColor = Color.LightGray
             ),
-        onClick = { onClick },
+        onClick = { onClick() },
         enabled = enabled,
         shape = ButtonDefaults.shape,
         elevation = ButtonDefaults.buttonElevation(10.dp),
