@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun buttonsComponent(
     texto: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit?,
     enabled: Boolean = true
 ) {
     Button(
@@ -28,7 +28,7 @@ fun buttonsComponent(
             disabledContainerColor = Color.Gray,
             disabledContentColor = Color.LightGray
             ),
-        onClick = onClick,
+        onClick = { onClick },
         enabled = enabled,
         shape = ButtonDefaults.shape,
         elevation = ButtonDefaults.buttonElevation(10.dp),
