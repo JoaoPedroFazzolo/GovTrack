@@ -3,27 +3,35 @@ package com.fiap.govtrack
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.fiap.govtrack.screens.TelasNavegacao
 import com.fiap.govtrack.ui.theme.GovTrackTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContent {
             GovTrackTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Joao",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                val navController = rememberNavController()
+
+                NavHost(
+                    navController = navController,
+                    startDestination = "telasNavegacao",
+                    ){
+                    composable(route = "home") {  }
+                    composable(route = "telasNavegacao") { TelasNavegacao(navController) }
+                    composable(route = "cadastro") {  }
+                    composable(route = "login") {  }
+                    composable(route = "resetSenha") {  }
+                    composable(route = "pesquisaCnpj") {  }
+                    composable(route = "graficos") {  }
                 }
             }
         }
