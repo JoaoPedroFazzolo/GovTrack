@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fiap.govtrack.R
@@ -27,9 +28,12 @@ fun PagamentoCard(pagamento: Pagamentos) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(text = "Nome Favorecido: ${pagamento.nomeFavorecido}", fontWeight = FontWeight.Bold)
-            Text(text = "Valor: R$ ${pagamento.valor}")
-            Text(text = "Código UG: ${pagamento.codigoUg}")
+            Text(
+                text = stringResource(R.string.empresa) + ": ${pagamento.nomeFavorecido}",
+                fontWeight = FontWeight.Bold
+            )
+            Text(text = stringResource(R.string.orgaoPublico) + ": ${pagamento.ug}")
+            Text(text = stringResource(R.string.valor) + ": R$ ${pagamento.valor}")
         }
     }
 }
