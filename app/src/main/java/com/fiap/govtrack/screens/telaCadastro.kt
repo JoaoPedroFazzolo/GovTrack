@@ -8,6 +8,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -132,7 +133,8 @@ fun TelaCadastro(navController: NavController?) {
                         value = senha,
                         onValueChange = { senha = it },
                         label = { Text("Senha") },
-                        leadingIcon = {
+                        leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Senha") },
+                        trailingIcon = {
                             IconButton(onClick = { senhaVisivel = !senhaVisivel }) {
                                 Icon(
                                     imageVector = if (senhaVisivel) Icons.Default.Visibility else Icons.Default.VisibilityOff,
