@@ -1,6 +1,7 @@
 package com.fiap.govtrack.screens
 
 import GradientBackground
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -57,6 +59,22 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
     var cnpj by remember { mutableStateOf("") }
     var ano by remember { mutableStateOf("") }
 
+    // Estado para controlar a exibição do Total Geral
+    var showTotalGeral by remember { mutableStateOf(false) }
+
+    // Função para agrupar e somar os valores por UG, ignorando valores zero
+    val pagamentosAgrupados = pagamentosList
+        .filter { it.valor.replace(",", ".").toDoubleOrNull() ?: 0.0 != 0.0 } // Filtra valores diferentes de zero
+        .groupBy { it.ug } // Agrupa pelo nome da UG
+        .mapValues { entry ->
+            entry.value.sumOf { pagamento ->
+                pagamento.valor.replace(",", ".").toDoubleOrNull() ?: 0.0 // Soma os valores
+            }
+        }
+
+    // Calcula o total geral de todos os valores agrupados
+    val totalGeral = pagamentosAgrupados.values.sum()
+
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -78,7 +96,8 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
                         text = stringResource(R.string.facaSuaPesquisa),
                         color = Color.White,
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
                 Card(
@@ -127,6 +146,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
                             texto = "Buscar",
                             onClick = {
                                 viewModel.buscarPagamentos(cnpj, ano)
+                                showTotalGeral = true // Exibe o Total Geral após o clique
                             }
                         )
                         errorMessage?.let {
@@ -137,12 +157,56 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
                             )
                         }
 
+                        // Exibe o Total Geral apenas se showTotalGeral for true
+                        if (showTotalGeral) {
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 16.dp)
+                                    .border(
+                                        width = 1.dp,
+                                        color = Color.Black,
+                                        shape = RoundedCornerShape(8.dp)
+                                    ),
+                                shape = RoundedCornerShape(8.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color.Transparent
+                                )
+                            ) {
+                                Text(
+                                    text = "Total Geral: ${String.format("R$ %.2f", totalGeral)}",
+                                    fontSize = 20.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color.Black,
+                                    modifier = Modifier
+                                        .padding(16.dp)
+                                        .align(Alignment.CenterHorizontally)
+                                )
+                            }
+                        }
+
                         if (isLoading) {
                             CircularProgressIndicator(modifier = Modifier.padding(top = 16.dp))
                         } else {
                             LazyColumn {
-                                items(pagamentosList) { pagamento ->
-                                    PagamentoCard(pagamento)
+                                // Exibe os resultados agrupados por UG, ignorando valores zero
+                                items(pagamentosAgrupados.toList()) { (ug, valorTotal) ->
+                                    Column(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(16.dp)
+                                    ) {
+                                        Text(
+                                            text = "UG: $ug",
+                                            fontWeight = FontWeight.Bold,
+                                            fontSize = 18.sp
+                                        )
+                                        Text(
+                                            text = "Valor Total: ${String.format("R$ %.2f", valorTotal)}",
+                                            fontSize = 16.sp
+                                        )
+                                    }
+                                    Divider() // Adiciona uma linha divisória entre os itens
                                 }
                             }
                         }
