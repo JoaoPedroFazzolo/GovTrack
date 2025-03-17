@@ -14,6 +14,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "API_KEY", "\"${project.findProperty("API_KEY")}\"")
+
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -36,6 +38,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
@@ -56,8 +59,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
     implementation(libs.androidx.material.icons.extended)
-
-
+    implementation(libs.androidx.material.icons.extended.v150)
     implementation(libs.androidx.navigation.compose)
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation(libs.gson)
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    implementation(libs.coil.compose)
 }
