@@ -11,4 +11,10 @@
     <string name="facaSuaPesquisa">Faça sua pesquisa</string>
     <string name="iconeDePesquisa">Icone de pesquisa</string>
     <string name="iconeDeConstrucao">Icone de Construcao</string>
+    <string name="recuperarSenhaBotao">Recuperar Senha</string>
+    <string name="recuperarSenhaTitulo">Esqueci a Senha</string>
+    <string name="retornarAoLogin">Retornar a tela de login</string>
+    <string name="valor">Valor</string>
+    <string name="orgaoPublico">Órgão Publico</string>
+    <string name="empresa">Empresa</string>
 </resources>
