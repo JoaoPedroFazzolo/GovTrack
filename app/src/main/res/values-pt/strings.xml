@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">GovTrack</string>
+    <string name="CNPJ">CNPJ</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="nomeCompleto">Nome Completo</string>
+    <string name="entrar">Entrar</string>
+    <string name="cadastrese">Cadastre-se</string>
+    <string name="enviar">Enviar</string>
+    <string name="ano">Ano</string>
+    <string name="facaSuaPesquisa">Faça sua pesquisa</string>
+    <string name="iconeDePesquisa">Icone de pesquisa</string>
+    <string name="iconeDeConstrucao">Icone de Construcao</string>
+    <string name="recuperarSenhaBotao">Recuperar Senha</string>
+    <string name="recuperarSenhaTitulo">Esqueci a Senha</string>
+    <string name="retornarAoLogin">Retornar a tela de login</string>
+    <string name="valor">Valor</string>
+    <string name="orgaoPublico">Órgão Publico</string>
+    <string name="empresa">Empresa</string>
+</resources>
