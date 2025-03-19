@@ -14,4 +14,7 @@
     <string name="recuperarSenhaBotao">Password Recovery</string>
     <string name="recuperarSenhaTitulo">Forgot Password</string>
     <string name="retornarAoLogin">Return to login screen</string>
+    <string name="valor">Amount</string>
+    <string name="orgaoPublico">Public Entity</string>
+    <string name="empresa">Enterprise</string>
 </resources>
