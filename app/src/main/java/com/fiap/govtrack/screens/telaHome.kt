@@ -37,7 +37,6 @@ fun TelaHome(navController: NavController?) {
             .background(GradientBackground),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-
         Image(
             painter = painterResource(id = R.drawable.govtrack_logo),
             contentDescription = "Logo Principal",
@@ -71,11 +70,12 @@ fun TelaHome(navController: NavController?) {
             contentDescription = "Shape",
             modifier = Modifier
                 .size(200.dp)
-                .offset(x = (-80.dp))
+                .offset(x = (-80).dp)
                 .align(Alignment.Start)
         )
+
         Button(
-            onClick = { /* Ação do botão */ },
+            onClick = { navController?.navigate("telaLogin") },
             shape = CircleShape,
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier

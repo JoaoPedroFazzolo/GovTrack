@@ -1,5 +1,6 @@
 package com.fiap.govtrack.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -18,13 +19,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.fiap.govtrack.R
 
 @Composable
 fun TelaCadastro(navController: NavController?) {
@@ -44,7 +47,7 @@ fun TelaCadastro(navController: NavController?) {
             )
     ) {
         IconButton(
-            onClick = { navController?.navigateUp() },
+            onClick = { navController?.navigate("telaLogin") },
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.TopStart)
@@ -57,22 +60,22 @@ fun TelaCadastro(navController: NavController?) {
         }
 
         Column(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(40.dp))
-
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 48.dp, top = 48.dp)
+                modifier = Modifier.padding(bottom = 48.dp)
             ) {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.govtrack_logo),
+                    contentDescription = "Logo Principal",
                     modifier = Modifier
                         .size(72.dp)
                         .background(Color.White, CircleShape)
-                ) {
-                    // Logo do app, nn tenho ent vou deixar pra gnt ver dps
-                }
+                )
 
                 Spacer(modifier = Modifier.width(16.dp))
 
@@ -86,8 +89,10 @@ fun TelaCadastro(navController: NavController?) {
             }
 
             Card(
-                modifier = Modifier.fillMaxSize(),
-                shape = RoundedCornerShape(32.dp, 32.dp, 0.dp, 0.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp)
             ) {
                 Column(
                     modifier = Modifier
@@ -164,7 +169,9 @@ fun TelaCadastro(navController: NavController?) {
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(
-                        onClick = { /* Logica de cadastro */ },
+                        onClick = {
+                                navController?.navigate("telaPesquisaCNPJ")
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
