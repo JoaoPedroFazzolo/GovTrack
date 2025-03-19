@@ -19,6 +19,7 @@ navigationRuntimeAndroid = "2.9.0-alpha08"
 retrofit = "2.11.0"
 retrofitVersion = "2.9.0"
 
+
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
