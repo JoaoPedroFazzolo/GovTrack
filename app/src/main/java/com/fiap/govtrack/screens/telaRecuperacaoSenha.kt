@@ -38,6 +38,7 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
                     colors = listOf(Color(0xFF1C1C1E), Color(0xFF121212))
                 )
             )
+            .padding(top = 16.dp)
     ) {
         IconButton(
             onClick = { navController?.navigate("telaLogin") },
@@ -142,7 +143,7 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
 
                     Button(
                         onClick = {
-                                navController?.navigate("telaLogin")
+                            navController?.navigate("telaLogin")
                         },
                         modifier = Modifier
                             .fillMaxWidth()

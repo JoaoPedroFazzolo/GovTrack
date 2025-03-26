@@ -34,7 +34,8 @@ fun TelaHome(navController: NavController?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(GradientBackground),
+            .background(GradientBackground)
+            .padding(top = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Image(

@@ -1,13 +1,10 @@
 package com.fiap.govtrack.screens
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BusinessCenter
@@ -18,7 +15,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -42,21 +38,14 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
     val pagamentosList by viewModel.pagamentosList.collectAsState()
     val isLoading by viewModel.isLoading.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+    val pagamentosPorUG by viewModel.pagamentosPorUG.collectAsState()
 
     var cnpj by remember { mutableStateOf("") }
     var ano by remember { mutableStateOf("") }
     var showTotalGeral by remember { mutableStateOf(false) }
 
-    val pagamentosAgrupados = pagamentosList
-        .filter { it.valor.replace(",", ".").toDoubleOrNull() ?: 0.0 != 0.0 }
-        .groupBy { it.ug }
-        .mapValues { entry ->
-            entry.value.sumOf { pagamento ->
-                pagamento.valor.replace(",", ".").toDoubleOrNull() ?: 0.0
-            }
-        }
-
-    val totalGeral = pagamentosAgrupados.values.sum()
+    // Calcular o total geral a partir do map de pagamentos por UG
+    val totalGeral = pagamentosPorUG.values.sum()
 
     Surface(
         modifier = Modifier.fillMaxSize()
@@ -65,6 +54,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
             modifier = Modifier
                 .fillMaxSize()
                 .background(GradientBackground)
+                .padding(top = 30.dp)
         ) {
             IconButton(
                 onClick = { navController?.navigate("telaLogin") },
@@ -82,7 +72,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 16.dp), // Espaço para o botão de logout
+                    .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
@@ -177,7 +167,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
                                     .align(Alignment.CenterHorizontally)
                                     .padding(vertical = 16.dp)
                             )
-                        } else if (pagamentosAgrupados.isNotEmpty()) {
+                        } else if (pagamentosPorUG.isNotEmpty()) {
                             if (showTotalGeral) {
                                 Card(
                                     modifier = Modifier
@@ -211,7 +201,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
                                     .fillMaxSize()
                                     .padding(bottom = 8.dp)
                             ) {
-                                items(pagamentosAgrupados.toList()) { (ug, valorTotal) ->
+                                items(pagamentosPorUG.toList()) { (ug, valorTotal) ->
                                     PagamentoCard(
                                         ug = ug,
                                         valorTotal = String.format("R$ %.2f", valorTotal)
@@ -240,33 +230,7 @@ fun TelaPesquisaCNPJ(navController: NavController?, viewModel: PagamentosViewMod
     }
 }
 
-@Composable
-fun PagamentoCard(ug: String, valorTotal: String) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(2.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = "UG: $ug",
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                color = Color.Black
-            )
-            Text(
-                text = "Valor Total: $valorTotal",
-                fontSize = 16.sp,
-                color = Color.DarkGray
-            )
-        }
-    }
-}
+
 
 @Preview(showSystemUi = true)
 @Composable

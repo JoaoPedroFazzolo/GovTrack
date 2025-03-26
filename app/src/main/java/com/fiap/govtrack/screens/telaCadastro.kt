@@ -45,6 +45,7 @@ fun TelaCadastro(navController: NavController?) {
                     colors = listOf(Color(0xFF1C1C1E), Color(0xFF121212))
                 )
             )
+            .padding(top = 16.dp)
     ) {
         IconButton(
             onClick = { navController?.navigate("telaLogin") },
@@ -170,7 +171,7 @@ fun TelaCadastro(navController: NavController?) {
 
                     Button(
                         onClick = {
-                                navController?.navigate("telaPesquisaCNPJ")
+                            navController?.navigate("telaPesquisaCNPJ")
                         },
                         modifier = Modifier
                             .fillMaxWidth()
