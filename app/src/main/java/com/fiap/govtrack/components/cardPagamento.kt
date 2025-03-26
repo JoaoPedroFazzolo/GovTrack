@@ -9,31 +9,35 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.fiap.govtrack.R
-import com.fiap.govtrack.model.Pagamentos
+import androidx.compose.ui.unit.sp
 
 @Composable
-fun PagamentoCard(pagamento: Pagamentos) {
+fun PagamentoCard(ug: String, valorTotal: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = colorResource(R.color.white))
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(2.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
             Text(
-                text = stringResource(R.string.empresa) + ": ${pagamento.nomeFavorecido}",
-                fontWeight = FontWeight.Bold
+                text = "UG: $ug",
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp,
+                color = Color.Black
             )
-            Text(text = stringResource(R.string.orgaoPublico) + ": ${pagamento.ug}")
-            Text(text = stringResource(R.string.valor) + ": R$ ${pagamento.valor}")
+            Text(
+                text = "Valor Total: $valorTotal",
+                fontSize = 16.sp,
+                color = Color.DarkGray
+            )
         }
     }
 }
