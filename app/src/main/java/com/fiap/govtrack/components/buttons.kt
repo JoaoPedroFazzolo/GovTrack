@@ -1,6 +1,7 @@
 package com.fiap.govtrack.components
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -18,7 +19,8 @@ import androidx.compose.ui.unit.sp
 fun buttonsComponent(
     texto: String,
     onClick: () -> Unit?,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    modifier: Modifier
 ) {
     Button(
         modifier = Modifier.padding(all = 20.dp),
@@ -46,5 +48,9 @@ fun buttonsComponent(
 @Preview
 @Composable
 private fun buttonsComponentPreview() {
-    buttonsComponent("Cadastre-se", onClick = {})
+    buttonsComponent(
+        "Cadastre-se", onClick = {}, modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 22.dp, vertical = 16.dp)
+    )
 }

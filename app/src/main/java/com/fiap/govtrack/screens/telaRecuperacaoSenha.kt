@@ -3,39 +3,15 @@ package com.fiap.govtrack.screens
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -62,12 +38,10 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
                     colors = listOf(Color(0xFF1C1C1E), Color(0xFF121212))
                 )
             )
+            .padding(top = 16.dp)
     ) {
-        // Back button
         IconButton(
-            onClick = {
-                navController?.navigateUp()
-            },
+            onClick = { navController?.navigate("telaLogin") },
             modifier = Modifier
                 .padding(16.dp)
                 .align(Alignment.TopStart)
@@ -107,7 +81,7 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
                 Text(
                     text = "GovTrack",
                     style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.Bold // Fonte mais grossa
+                        fontWeight = FontWeight.Bold
                     ),
                     color = Color.White
                 )
@@ -168,15 +142,9 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
                     Spacer(modifier = Modifier.height(32.dp))
 
                     Button(
-                        onClick = { /*
-
-
-
-                        LÓGICA DA RECUPERAÇÃO DE SENHA
-
-
-
-                        */ },
+                        onClick = {
+                            navController?.navigate("telaLogin")
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
@@ -188,10 +156,25 @@ fun TelaRecuperacaoSenha(navController: NavController?) {
                         Text("Enviar", color = Color.White)
                     }
 
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Button(
+                        onClick = { navController?.navigate("telaLogin") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        shape = RoundedCornerShape(25.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF1C1C1E)
+                        )
+                    ) {
+                        Text("Fazer Login", color = Color.White)
+                    }
+
                     Spacer(modifier = Modifier.height(24.dp))
 
                     OutlinedButton(
-                        onClick = { /* TODO */ },
+                        onClick = { /* TODO: Lógica de reenvio ou timer */ },
                         border = BorderStroke(1.dp, Color(0xFF1C1C1E)),
                         colors = ButtonDefaults.outlinedButtonColors(
                             contentColor = Color(0xFF1C1C1E)

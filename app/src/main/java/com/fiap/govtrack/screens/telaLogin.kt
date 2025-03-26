@@ -1,5 +1,6 @@
 package com.fiap.govtrack.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -28,13 +29,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.fiap.govtrack.R
 
 @Composable
 fun TelaLogin(navController: NavController?) {
@@ -50,6 +51,7 @@ fun TelaLogin(navController: NavController?) {
                     colors = listOf(Color(0xFF1C1C1E), Color(0xFF121212))
                 )
             )
+            .padding(top = 16.dp)
     ) {
         IconButton(
             onClick = { navController?.navigateUp() },
@@ -67,7 +69,7 @@ fun TelaLogin(navController: NavController?) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()), // Enable scrolling for the entire screen
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(40.dp))
@@ -76,14 +78,13 @@ fun TelaLogin(navController: NavController?) {
                 verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.padding(bottom = 48.dp, top = 48.dp)
             ) {
-                Box(
+                Image(
+                    painter = painterResource(id = R.drawable.govtrack_logo),
+                    contentDescription = "Logo Principal",
                     modifier = Modifier
                         .size(72.dp)
                         .background(Color.White, CircleShape)
-                ) {
-                    // Logo do app (GovTrack logo with green waves)
-                    // Placeholder for custom logo implementation
-                }
+                )
 
                 Spacer(modifier = Modifier.width(16.dp))
 
@@ -124,7 +125,7 @@ fun TelaLogin(navController: NavController?) {
                     Text(
                         text = "Faça login.",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray,
+                        color = Color.Gray
                     )
 
                     Spacer(modifier = Modifier.height(24.dp))
@@ -171,13 +172,15 @@ fun TelaLogin(navController: NavController?) {
                     }
                     ClickableText(
                         text = annotatedPassword,
-                        onClick = { /* Lógica para esqueceu a senha */ }
+                        onClick = { navController?.navigate("telaRecuperacaoSenha") }
                     )
 
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Button(
-                        onClick = { /* Lógica de login */ },
+                        onClick = {
+                            navController?.navigate("telaPesquisaCNPJ")
+                        },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(50.dp),
@@ -199,11 +202,11 @@ fun TelaLogin(navController: NavController?) {
                     }
                     ClickableText(
                         text = annotatedAccount,
-                        onClick = { /* Lógica para cadastro */ },
+                        onClick = { navController?.navigate("telaCadastro") }
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(24.dp)) // Extra space at the bottom to ensure scrolling works
+            Spacer(modifier = Modifier.height(24.dp))
         }
     }
 }

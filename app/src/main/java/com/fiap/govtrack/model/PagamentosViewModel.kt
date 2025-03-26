@@ -1,5 +1,6 @@
 package com.fiap.govtrack.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fiap.govtrack.BuildConfig
@@ -12,7 +13,9 @@ import retrofit2.HttpException
 import java.io.IOException
 
 class PagamentosViewModel : ViewModel() {
-    val apiKey = BuildConfig.API_KEY
+    private val apiKey = BuildConfig.API_KEY
+    private val pagamentoService = RetrofitFactory().getPagamentoService()
+
     // Estado para a lista de pagamentos
     private val _pagamentosList = MutableStateFlow<List<Pagamentos>>(emptyList())
     val pagamentosList: StateFlow<List<Pagamentos>> get() = _pagamentosList
@@ -25,7 +28,9 @@ class PagamentosViewModel : ViewModel() {
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> get() = _errorMessage
 
-    private val pagamentoService = RetrofitFactory().getPagamentoService()
+    // Estado para armazenar os valores totais por UG
+    private val _pagamentosPorUG = MutableStateFlow<Map<String, Double>>(emptyMap())
+    val pagamentosPorUG: StateFlow<Map<String, Double>> get() = _pagamentosPorUG
 
     fun buscarPagamentos(cnpj: String, ano: String, paginaInicial: String = "1") {
         if (cnpj.isBlank() || ano.isBlank() || paginaInicial.isBlank()) {
@@ -40,6 +45,7 @@ class PagamentosViewModel : ViewModel() {
 
             var currentPage = paginaInicial.toIntOrNull() ?: 1
             var hasMoreData = true
+            val listaAtualizada = mutableListOf<Pagamentos>()
 
             try {
                 while (hasMoreData) {
@@ -55,10 +61,14 @@ class PagamentosViewModel : ViewModel() {
                     if (response.isEmpty()) {
                         hasMoreData = false
                     } else {
-                        _pagamentosList.value = _pagamentosList.value + response
+                        listaAtualizada.addAll(response)
                         currentPage++
                     }
                 }
+
+                _pagamentosList.value = listaAtualizada
+                calcularPagamentosPorUG(listaAtualizada)
+
             } catch (e: IOException) {
                 _errorMessage.value = "Erro de conexão com a internet"
             } catch (e: HttpException) {
@@ -75,6 +85,28 @@ class PagamentosViewModel : ViewModel() {
             }
         }
     }
+
+
+    private fun calcularPagamentosPorUG(lista: List<Pagamentos>) {
+        val pagamentosPorUG = lista
+            .filter { it.ug != null && it.valor != null } // Garante que os dados estão corretos
+            .groupBy { it.ug ?: "UG Desconhecida" } // Evita erros em valores nulos
+            .mapValues { (_, pagamentos) ->
+                pagamentos.sumOf { pagamento ->
+                    pagamento.valor
+                        .replace(".", "")  // Remove os pontos de milhar
+                        .replace(",", ".") // Substitui a vírgula por ponto
+                        .toDoubleOrNull()
+                        .also {
+                            if (it == null) Log.e("PagamentosViewModel", "Valor inválido encontrado: ${pagamento.valor}")
+                        } ?: 0.0
+                }
+            }
+
+        _pagamentosPorUG.value = pagamentosPorUG
+        Log.d("PagamentosViewModel", "Pagamentos por UG: $pagamentosPorUG")
+    }
+
 
     fun clearError() {
         _errorMessage.value = null
